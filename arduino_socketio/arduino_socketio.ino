@@ -1,8 +1,13 @@
+#include <SAMD_BootloaderUpdater.h>
+
+#include <RobotIRremoteInt.h>
+#include <RobotIRremoteTools.h>
+#include <RobotIRremote.h>
+
 
 
 #include <SPI.h>
-#include <WiFiNINA.h>
-#include <ArduinoHttpClient.h>
+
 #include <LiquidCrystal.h>
 
 // initialize the library with the numbers of the interface pins
@@ -10,8 +15,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 //#include "arduino_secrets.h"
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "Amigo";        // your network SSID (name)
-char pass[] = "ginatony";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "Niko";        // your network SSID (name)
+char pass[] = "123456789";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
