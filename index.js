@@ -21,3 +21,5 @@ io.on('connection', function (socket) {
     console.log(data);
   });
 });
+
+console.log("Server started on port 80");
