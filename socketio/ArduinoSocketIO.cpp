@@ -70,6 +70,7 @@ void ArduinoSocketIO::on(String event, func function){
     if (event_size > event_number){
         events[event_number] = event;
         actions[event_number] = function;
+        ++event_number;
         Serial.print(event);
         Serial.println("is now an event");
     } else {
@@ -87,7 +88,8 @@ void ArduinoSocketIO::eventListener(){
         //The filtering of characters is incomplete. Wont work for an array.
         if (byte_num < 255 && byte_num > -1){
             char c = char(b);
-            if (c == '4' || c == '2' || c == '[' || c == '\"' || clean_message){
+            Serial.println(c);
+            if (c == '4' || c == '2' || c== '0' || c == '[' || c == '\"' || clean_message){
                 ++count;
                 data += String(c);
                 if (data == "42[\""){
@@ -110,5 +112,16 @@ void ArduinoSocketIO::eventListener(){
 
 
 void ArduinoSocketIO::triggerEvent(String event, String payload){
-    actions[0](payload);
+    int number = -1;
+    for (int i = 0; i < event_number; ++i){
+        Serial.println(events[i]);
+        if (events[i] == event){
+            number = i;
+        }
+    }
+    if (number != -1){
+        actions[number](payload);
+    } else {
+        Serial.println("No event found");
+    }
 }

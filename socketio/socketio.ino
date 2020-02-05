@@ -14,8 +14,7 @@ char server[] = "10.0.0.6";
 ArduinoSocketIO socket(wifi, server, port, 10);
 
 void event1(String data){
-  Serial.print("Function data: ");
-  Serial.println(data);
+  socket.emit("hello", "WE IN THE FUNCTION");
 }
 
 
