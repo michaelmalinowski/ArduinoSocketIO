@@ -10,10 +10,11 @@ int status = WL_IDLE_STATUS;
 
 WiFiClient wifi;
 int port = 80;
-char server[] = "10.0.0.7";
+char server[] = "10.0.0.6";
 ArduinoSocketIO socket(wifi, server, port, 10);
 
 void event1(String data){
+  Serial.print("Function data: ");
   Serial.println(data);
 }
 

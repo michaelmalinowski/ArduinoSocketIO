@@ -10,9 +10,13 @@ class ArduinoSocketIO {
   private:
     typedef void (*func)(String);
     WebSocketClient client;
+    //event actions (callbacks)
     func *actions;
+    //current number of events within the object
     int event_number = 0;
+    //amount of events within object
     int event_size;
+    //the names of events
     String *events;
 
   public:
@@ -34,10 +38,14 @@ class ArduinoSocketIO {
     void emit(String event, String message);
 
     //creates a socket trigger event. 
+    //the function must be a void functionName(String str);
     void on(String event, func function);
 
     //listens for events
     void eventListener();
+
+    //this function triggers an event when one is captured
+    void triggerEvent(String event, String payload);
 
   };
 

@@ -1,25 +1,25 @@
 #include "ArduinoSocketIO.h"
 
-String * sortResponse(String allData){
+void sortResponse(String allData, int count, String* data){
+    Serial.println(allData);
     String event, payload;
     bool event_check = false;
     bool payload_check = false;
-    for (int i = 0; i < strlen(allData); ++i){
+    for (int i = 0; i < count; ++i){
         if ('[' == allData[i]){
             event_check = true;
+            i += 2;
         } else if (event_check && allData[i] == '\"'){
             event_check = false;
             payload_check = true;
-            i += 2;
+            i += 3;
         } else if (payload_check && allData[i] == '\"'){
-            Serial.println(event);
-            Serial.println(payload);
-            String response = [event, payload];
-            return response;
+            data[0] = event;
+            data[1] = payload;
         }
         if (event_check){
             event += allData[i];
-        } else if (payload_check){
+        }else if (payload_check){
             payload += allData[i];
         }
     }
@@ -79,28 +79,36 @@ void ArduinoSocketIO::on(String event, func function){
 
 void ArduinoSocketIO::eventListener(){
     String data = "";
-    //String event = {"",""};
+    int count = 0;
     bool clean_message = false;
     while(this->isConnected()){
         byte b = this->client.read();
         int byte_num = int(b);
-        //The filtering of characters is incomplete. WOnt work for an array.
+        //The filtering of characters is incomplete. Wont work for an array.
         if (byte_num < 255 && byte_num > -1){
             char c = char(b);
             if (c == '4' || c == '2' || c == '[' || c == '\"' || clean_message){
+                ++count;
                 data += String(c);
-                //Serial.println(data);
                 if (data == "42[\""){
                     clean_message = true;
                 }
                 if (clean_message && c == ']'){
-                    sortResponse(data);
+                    String events[2];
+                    sortResponse(data, count, events);
+                    this->triggerEvent(events[0], events[1]);
                 }
             } else {
                 data = "";
+                count = 0;
             }
         } else {
             clean_message = false;
         }
     }
+}
+
+
+void ArduinoSocketIO::triggerEvent(String event, String payload){
+    actions[0](payload);
 }
