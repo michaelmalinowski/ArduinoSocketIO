@@ -1,7 +1,27 @@
-<script src="/socket.io/socket.io.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Chat Example</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <ul class="pages">
+    <li class="login page">
+      <div class="form">
+        <h3 class="title">What's your nickname?</h3>
+        <input class="usernameInput" type="text" maxlength="14" onchange="send(this.value)"/>
+      </div>
+    </li>
+  </ul>
+
+  <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
-    socket.emit('hello', { my: 'data' });
+    function send(data){
+      socket.emit('hello', data);
+    }
 </script>
-
+</body>
+</html>
 

@@ -14,7 +14,7 @@ class ArduinoSocketIO {
     func *actions;
     //current number of events within the object
     int event_number = 0;
-    //amount of events within object
+    //amount of events allowed within the object
     int event_size;
     //the names of events
     String *events;
@@ -41,8 +41,8 @@ class ArduinoSocketIO {
     //the function must be a void functionName(String str);
     void on(String event, func function);
 
-    //listens for events
-    void eventListener();
+    //listens for events and pings the server every ping_period 
+    void eventListener(int ping_period);
 
     //this function triggers an event when one is captured
     void triggerEvent(String event, String payload);

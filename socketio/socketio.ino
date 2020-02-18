@@ -1,3 +1,4 @@
+#include <LiquidCrystal.h>
 #include <WiFiNINA.h>
 #include <SPI.h>
 #include "ArduinoSocketIO.h"
@@ -9,16 +10,21 @@ int keyIndex = 0;            // your network key Index number (needed only for W
 int status = WL_IDLE_STATUS;
 
 WiFiClient wifi;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
 int port = 80;
 char server[] = "10.0.0.6";
 ArduinoSocketIO socket(wifi, server, port, 10);
 
 void event1(String data){
-  socket.emit("hello", "WE IN THE FUNCTION");
+  lcd.clear();
+  lcd.print(data);
 }
 
 
 void setup(){
+  lcd.begin(16, 2);
+  lcd.setCursor(0, 1);
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   //while (!Serial) { // wait for serial port to connect. Needed for native USB port only}
@@ -53,7 +59,7 @@ void setup(){
 }
 
 void loop(){
-  socket.eventListener();
+  socket.eventListener(15);
 }
 
 void printWiFiStatus() {

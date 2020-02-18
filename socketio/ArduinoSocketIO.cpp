@@ -78,17 +78,23 @@ void ArduinoSocketIO::on(String event, func function){
     }
 }
 
-void ArduinoSocketIO::eventListener(){
+void ArduinoSocketIO::eventListener(int ping_period){
+    int start_time = millis();
+    int current_time;
     String data = "";
     int count = 0;
     bool clean_message = false;
     while(this->isConnected()){
+        current_time = millis();
+        if ((current_time - start_time)/1000 >= ping_period){
+            this->keepSocketAlive();
+            start_time = millis();
+        }
         byte b = this->client.read();
         int byte_num = int(b);
         //The filtering of characters is incomplete. Wont work for an array.
         if (byte_num < 255 && byte_num > -1){
             char c = char(b);
-            Serial.println(c);
             if (c == '4' || c == '2' || c== '0' || c == '[' || c == '\"' || clean_message){
                 ++count;
                 data += String(c);
@@ -108,6 +114,8 @@ void ArduinoSocketIO::eventListener(){
             clean_message = false;
         }
     }
+    Serial.println("Connection was severed");
+    this->startConnection();
 }
 
 

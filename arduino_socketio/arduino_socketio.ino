@@ -1,8 +1,11 @@
-#include <SAMD_BootloaderUpdater.h>
+#include <ArduinoHttpClient.h>
 
-#include <RobotIRremoteInt.h>
-#include <RobotIRremoteTools.h>
-#include <RobotIRremote.h>
+#include <WebSocketsServer.h>
+#include <SocketIOclient.h>
+#include <WebSockets.h>
+#include <WebSocketsClient.h>
+
+#include <WiFiNINA.h>
 
 
 
@@ -15,8 +18,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 //#include "arduino_secrets.h"
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "Niko";        // your network SSID (name)
-char pass[] = "123456789";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "amigo";        // your network SSID (name)
+char pass[] = "ginatony";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
@@ -38,7 +41,8 @@ void setup() {
   Serial.begin(9600);
   //while (!Serial) { // wait for serial port to connect. Needed for native USB port only}
   lcd.begin(16, 2);
-  lcd.setCursor(0, 1);
+  lcd.setCursor(0, 0);
+  lcd.print("hello");
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE) {
     Serial.println("Communication with WiFi module failed!");
