@@ -3,8 +3,8 @@
 #include <SPI.h>
 #include "ArduinoSocketIO.h"
 
-char ssid[] = "Amigo";        // your network SSID (name)
-char pass[] = "ginatony";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "";        // your network SSID (name)
+char pass[] = "";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
